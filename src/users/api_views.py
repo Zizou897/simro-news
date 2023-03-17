@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.core.validators import validate_email
 from django.contrib.auth import authenticate
 
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView
@@ -119,16 +120,21 @@ class LoginView(APIView):
         return Response(data=content, status=status.HTTP_200_OK)
 
 
+#----------------------------------------------------------
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def sign_out(request):
     
-    message = ''
-
-
     Token.objects.filter(user=request.user).delete()
     logout(request)
     
-    message = 'utilisateur déconnecté'
+    response = {
+        "code": 1,
+        "status": status.HTTP_200_OK,
+        "message": "utilisateur déconnecté",
+       
+    }
+    return Response(data=response, status=status.HTTP_200_OK)
 
-    return Response(data={'mesdage':message}, status=status.HTTP_200_OK)
+#-----------------------------------------------------------
