@@ -1,0 +1,51 @@
+#%RAML 1.0
+---
+title: l'Api pour le projet Simro
+baseUri: https://simro-kberthe.pythonanywhere.com/auth/api
+version: v1
+
+
+/login/:
+  description: Cette api permet à l'utlisateur de se connecter. On peut fait un get et un post
+  get:
+    description: Cette methode permet de verifier si un utlisateur est connecté
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+              "user": "AnonymousUser",
+              "auth": "None"
+              }
+      
+  post:
+    description: Cette methode permet de s'authentifier et de connecter l'utlisateur
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "code": 1,
+                "status": 200,
+                "message": "vous etes connecté",
+                "token": "efcc1a969dy56ceaa91dhjf255ddf37f45f30373c",
+                "user": {
+                    "username": "mamadou",
+                    "email": "mamadou@gmail.com",
+                    "phone": "0757408303"
+                }
+              }
+    
+      400:
+       body:
+         application/json:
+           example: |
+            {
+            "code": 0,
+            "status": 200,
+            "message": "username ou mot de passe incorrect",
+            "user": null
+            }
+      

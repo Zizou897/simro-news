@@ -21,10 +21,7 @@ User = get_user_model()
 class SignUpView(generics.GenericAPIView):
     serializer_class = UserSerializer
     
-    @swagger_auto_schema(
-        operation_summary="L'api pour l'enregistrement d'un utilisateur ",
-        operation_description=" Cette Api crée un user avec differents champs"
-    )
+   
     def post(self, request:Request):
         data = request.data
         serializer = self.serializer_class(data=data)
@@ -39,7 +36,7 @@ class SignUpView(generics.GenericAPIView):
                 "data": serializer.data
             }
             
-            return Response(data=response, status=status.HTTP_201_CREATED)
+            return Response(data=response, status=status.HTTP_200_OK)
         
         response = {
             "code": 0,
@@ -52,10 +49,7 @@ class SignUpView(generics.GenericAPIView):
 
 
 class LoginView(APIView):
-    @swagger_auto_schema(
-        operation_summary="L'api de connexion",
-        operation_description=" Cette Api permet au user de s'authentifier avec le username et le mot de passe"
-    )
+
     def post(self, request:Request):
         username = request.data.get('username')
         password = request.data.get('password')
@@ -84,33 +78,30 @@ class LoginView(APIView):
                     }
                 }
                 
-                return Response(data=response, status=status.HTTP_200_OK)
+                return Response(data=response, status=status.HTTP_201_CREATED)
             else:
                 
                 response = {
                     "code": 0,
-                    "status": status.HTTP_200_OK,
+                    "status": status.HTTP_201_CREATED,
                     "message": "votre compte n'est pas actif, veuillez contacter l'admin",
                     "token":  None,
                     "user": None
                 }
-                return Response(data=response)
+                return Response(data=response, status=status.HTTP_201_CREATED)
                 
         response = {
             "code": 0,
-            "status": status.HTTP_200_OK,
+            "status": status.HTTP_201_CREATED,
             "message": "username ou mot de passe incorrect",
             "user": None
         }
-        return Response(data=response)
+        return Response(data=response, status=status.HTTP_201_CREATED)
 
         
         
     
-    @swagger_auto_schema(
-        operation_summary="L'api de connexion(verification)",
-        operation_description=" Cette Api permet de verifier si le user est autifier \ndans le cas contraire il renvoie Anonymos\n{\n \t \"user\": \"Anonymos,\"\n \t\"auth\":None\n}"
-    )
+    
     def get(self, request:Request):
         content = {
             "user": str(request.user),

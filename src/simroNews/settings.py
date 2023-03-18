@@ -44,6 +44,7 @@ INSTALLED_APPS = [
      # App installed
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
 ]
 
 
@@ -64,9 +65,16 @@ REST_FRAMEWORK = {
     ]
 }
 
+
+X_FRAMES = 'SAMEORIGIN'
+
+CORS_ALLOW_ALL_ORIGINS: True
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -79,7 +87,7 @@ ROOT_URLCONF = 'simroNews.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR, ],
+        'DIRS': [BASE_DIR, 'templates/v1'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
