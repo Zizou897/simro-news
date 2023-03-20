@@ -14,7 +14,15 @@ urlpatterns = [
     path('api/login/', LoginView.as_view(), name='signin'),
     path('api/logout/', sign_out, name='signout'),
     
+    #Api for User
+    path('api/user/', UserList.as_view()),
+    path('api/user/<int:pk>/detail', UserList.as_view()),
+    path('api/user/<int:pk>/update', UserList.as_view()),
+    path('api/user/<int:pk>/delete', UserList.as_view()),
+    
+    
     # Api for action
-    path('api/createTypeActeur/', TypeActeurCreateApiView.as_view()),
+    path('api/type-acteur/', TypeActeurCreateApiView.as_view()),
+    path('api/type-acteur/<int:pk>/detail', TypeActeurCreateApiView.as_view()),
 
 ]

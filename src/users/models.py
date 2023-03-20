@@ -15,18 +15,16 @@ class Convention(models.Model):
 class User(AbstractUser):
     phone = models.CharField(max_length=50)
     address = models.CharField(max_length=50, blank=True, null=True)
-    type_acteur = models.ForeignKey("users.TypeActeur", on_delete=models.SET_NULL, null=True, blank=True)
-    acteur = models.ForeignKey("users.Acteur", on_delete=models.SET_NULL, null=True, blank=True)
+    type_acteur = models.CharField(max_length=250, blank=True, null=True)
+    acteur = models.CharField(max_length=250, blank=True, null=True)
+    description = models.TextField()
     
     
-    
-
-
 
 class TypeActeur(Convention):
-    code_type_acteur = models.CharField(max_length=150)
-    nom_type_acteur = models.CharField(max_length=250, default="agriculteur")
-    libele = models.CharField(max_length=50)
+    code_type_acteur = models.CharField(max_length=150, blank=True, null=True)
+    nom_type_acteur = models.CharField(max_length=250, blank=True, null=True)
+    libele = models.CharField(max_length=50, blank=True, null=True)
     
     def __str__(self):
         return self.nom_type_acteur

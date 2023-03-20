@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # App create
-    'users',
+    'app',
+    
     
      # App installed
     'rest_framework',
@@ -48,7 +49,7 @@ INSTALLED_APPS = [
 ]
 
 
-AUTH_USER_MODEL = "users.User"
+AUTH_USER_MODEL = "app.User"
 
 
 REST_FRAMEWORK = {
@@ -70,6 +71,28 @@ X_FRAMES = 'SAMEORIGIN'
 
 CORS_ALLOW_ALL_ORIGINS: True
 
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -87,7 +110,7 @@ ROOT_URLCONF = 'simroNews.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR, 'templates/v1'],
+        'DIRS': [BASE_DIR, 'app/templates/v1'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -134,7 +157,7 @@ DATABASES = {
 """
 
 AUTHENTICATION_BACKENDS = [
-    'users.auth.Email_OR_Phone',
+    'app.auth.Email_OR_Phone',
 ]
 
 # Password validation

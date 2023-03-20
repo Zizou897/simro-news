@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework import generics, mixins, status
 from rest_framework.authtoken.models import Token
 from rest_framework.request import Request
+from rest_framework.validators import ValidationError
 
 
 from .models import *
@@ -23,8 +24,38 @@ class SignUpView(generics.GenericAPIView):
     
    
     def post(self, request:Request):
+        
+        email_exists = User.objects.filter(email=request.data.get('email')).exists()
+        phone_exists = User.objects.filter(phone=request.data.get('phone')).exists()
         data = request.data
         serializer = self.serializer_class(data=data)
+        if email_exists:
+            #raise ValidationError("email exists déjà")
+
+            response = {
+            "code": 0,
+            "status": status.HTTP_201_CREATED,
+            "message": "email exists déjà",
+            "data": serializer.errors
+            }
+        
+            return Response(data=response, status=status.HTTP_201_CREATED)
+        
+        
+        if phone_exists:
+            #raise ValidationError("numero de téléphone exists déjà")
+
+            response = {
+            "code": 0,
+            "status": status.HTTP_201_CREATED,
+            "message": "numero de téléphone exists déjà",
+            #"data": serializer.errors
+            }
+        
+            return Response(data=response, status=status.HTTP_201_CREATED)
+        
+        
+        
         
         if serializer.is_valid():
             serializer.save()
@@ -40,12 +71,12 @@ class SignUpView(generics.GenericAPIView):
         
         response = {
             "code": 0,
-            "status": status.HTTP_200_OK,
+            "status": status.HTTP_201_CREATED,
             "message": "L'utlisateur non enregistré",
             "data": serializer.errors
         }
         
-        return Response(data=response, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data=response, status=status.HTTP_201_CREATED)
 
 
 class LoginView(APIView):
@@ -65,7 +96,7 @@ class LoginView(APIView):
                 except Token.DoesNotExist:
                     token = Token.objects.create(user=user)
                     token.save()
-                    
+                
                 response = {
                     "code": 1,
                     "status": status.HTTP_200_OK,
@@ -78,7 +109,7 @@ class LoginView(APIView):
                     }
                 }
                 
-                return Response(data=response, status=status.HTTP_201_CREATED)
+                return Response(data=response, status=status.HTTP_200_OK)
             else:
                 
                 response = {
@@ -128,6 +159,69 @@ def sign_out(request):
 #-----------------------------------------------------------
 
 
-class TypeActeurCreateApiView(generics.CreateAPIView):
+
+class UserList(generics.GenericAPIView,
+        mixins.ListModelMixin,
+        mixins.RetrieveModelMixin,
+        mixins.UpdateModelMixin):
+    
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = 'pk'
+    
+    
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        if pk is not None:
+            return self.retrieve(request, *args, **kwargs)
+        return self.list(request, *args, **kwargs)
+    
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+    
+    
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+
+class TypeActeurCreateApiView(generics.GenericAPIView,
+        mixins.ListModelMixin,
+        mixins.RetrieveModelMixin,
+        mixins.CreateModelMixin):
     queryset = TypeActeur.objects.filter(publish=True)
     serializer_class = TypeActeurSerialiser
+    lookup_field = 'pk'
+    
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        response = {
+            'code': 1,
+            'status': status.HTTP_200_OK,
+            'data': serializer.data
+        }
+        return Response(data=response, status=status.HTTP_200_OK, headers=headers)
+    """
+        response = {
+            'code': 201
+        }
+        return Response(data=response, status=status.HTTP_201_CREATED, headers=headers)
+    """
+    
+    def perform_create(self, serializer):
+        code_type_acteur = serializer.validated_data.get('code_type_acteur')
+        nom_type_acteur = serializer.validated_data.get('nom_type_acteur')
+        libele = serializer.validated_data.get('libele')
+        serializer.save()
+    
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        if pk is not None:
+            return self.retrieve(request, *args, **kwargs)
+        return self.list(request, *args, **kwargs)

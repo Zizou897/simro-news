@@ -20,13 +20,14 @@ class UserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = User
-        fields = ['username', 'email','phone', 'type_acteur', 'acteur', 'description', 'password']
+        fields = ['id' ,'username', 'email','phone', 'type_acteur', 'acteur', 'description', 'password']
         
     
     def validate(self, attrs):
         username_exists = User.objects.filter(username=attrs['username']).exists()
         email_exists = User.objects.filter(email=attrs['email']).exists()
         phone_exists = User.objects.filter(phone=attrs['phone']).exists()
+        """
         if username_exists:
             raise ValidationError("username exists déjà")
         
@@ -36,8 +37,8 @@ class UserSerializer(serializers.ModelSerializer):
         if phone_exists:
             raise ValidationError("numero de téléphone exists déjà")
         
+        """
         return super().validate(attrs)
-
     def create(self, validated_data):
         password = validated_data.pop("password")
         user = super().create(validated_data)
