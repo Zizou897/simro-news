@@ -1,0 +1,101 @@
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+aria-hidden="false">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ajout d'un utilisateur</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 'userList' %}" method="post" class="pt-3"> {% csrf_token %}
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-user"
+                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                placeholder="Contact" name="phone">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="password" class="form-control form-control-user"
+                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                placeholder="Mot de passe" name="password">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="email" class="form-control form-control-user"
+                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                placeholder="email" name="email">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        
+                    </div>
+                </div>
+                
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-user"
+                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                placeholder="Nom" name="first_name">
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-user"
+                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                placeholder="Prénom" name="last_name">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <select class="custom-select" id="inputGroupSelect03"  name="fonction">
+                                <option selected>choisir une fonction</option>
+                                <option value="1">PDG</option>
+                                <option value="2">RAO</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <div class="form-group">
+                            <select class="custom-select" id="inputGroupSelect03" name="access">
+                                <option selected>choisir un acces</option>
+                                <option value="1">Admin</option>
+                                <option value="2">Utilisateur</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <textarea type="text" class="form-control form-control-user" placeholder="describedby" name="description"> </textarea>
+                        </div>
+                    </div>
+                </div>
+                
+            
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+            <button type="submit" class="btn btn-success" href="">Ajouter</button>
+        </form>
+        </div>
+    </div>
+</div>
+</div>
+

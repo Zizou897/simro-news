@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     
     # App create
     'app',
+    'web',
     
     
      # App installed

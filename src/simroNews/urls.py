@@ -24,7 +24,7 @@ urlpatterns = [
     
     path('auth/', include('app.urls')),
     
-    path('api/type-acteur/', include('simroNews.routers')),
+    path('', include('web.urls')),
     
     
 ]

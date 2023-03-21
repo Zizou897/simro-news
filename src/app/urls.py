@@ -2,12 +2,12 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 
 from  .api_views import *
-from .views import doc
+from .views import *
 
 urlpatterns = [
     
     # documentation Api
-    path('api/documentation/', doc),
+   # path('api/documentation/', doc),
     
     # authenticate Api link
     path('api/register/', SignUpView.as_view(), name='signup'),
@@ -24,5 +24,6 @@ urlpatterns = [
     # Api for action
     path('api/type-acteur/', TypeActeurCreateApiView.as_view()),
     path('api/type-acteur/<int:pk>/detail', TypeActeurCreateApiView.as_view()),
+
 
 ]
